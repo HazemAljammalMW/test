@@ -1,3 +1,0 @@
-{
-  "buildCommand": "echo '--- NPM_TOKEN: $NPM_TOKEN ---' && yarn build"
-}
