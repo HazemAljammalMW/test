@@ -7,6 +7,7 @@ const QAWidget = dynamic(
         ssr: false,
     }
 )
+
 export function Child() {
   return (
     <div className="flex flex-col gap-4">
