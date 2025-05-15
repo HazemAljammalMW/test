@@ -3,7 +3,7 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - master  # or whichever branch you want to deploy
+      - master  # Change to your deployment branch
 
 jobs:
   deploy:
@@ -22,14 +22,24 @@ jobs:
       - name: Configure .npmrc for private packages
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+          cp .npmrc ~/.npmrc
+
+      - name: Debug .npmrc and env
+        run: |
+          cat .npmrc
+          printenv | grep NPM_TOKEN || echo "NPM_TOKEN not set"
+
+      - name: Configure yarn registry
+        run: yarn config set registry https://registry.npmjs.org/
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Verify @gigit-ai/gigit-apps installation
+        run: yarn list --pattern @gigit-ai/gigit-apps || echo "Package not found"
 
       - name: Build project
         run: yarn build
 
       - name: Deploy to Vercel
-        run: |
-          yarn global add vercel
-          vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --confirm --org ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }}
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --confirm --org ${{ secrets.VERCEL_ORG_ID }} --project ${{ secrets.VERCEL_PROJECT_ID }}
