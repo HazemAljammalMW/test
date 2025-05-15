@@ -1,0 +1,3 @@
+{
+  "buildCommand": "echo '--- .npmrc ---' && cat .npmrc && yarn build"
+}
