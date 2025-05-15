@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: ['@gigit-ai/gigit-apps'],
 };
 
 export default nextConfig;
